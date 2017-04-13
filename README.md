@@ -10,7 +10,7 @@ wget 'https://github.com/downloads/qiime/its-reference-otus/its_12_11_otus.tar.g
 #
 ##### Be sure to unzip the database, all of them
 #
-### Make blast database for taxonomy assignment (go into database rep set)
+### Make blast database for taxonomy assignment (go into database rep set) only if using joes taoxnomy assignment
 makeblastdb -dbtype nucl -in 99_otus.fasta -out 99_otus
 #
 ## Make fresh directory for raw reads, all reads should be gzipped at this point.
@@ -25,6 +25,16 @@ mv /path/to/project/dir/*/*R3* ./
 rename -v -n 's/(.*)-(.*)__(.*)/$1$2_$3/' *
 #
 ## Merge reads, add forward reads that did not merge to merged reads
+cd raw_reads
+join_reads_and_prep_for_qiime.py ./
 
 
+
+## Truncate primers
+
+truncate_reverse_primer.py -f seqs.fna -m mapping_file.txt -o truncate_reverse_primers
+
+## Open Reference OTU Picking
+
+pick_open_reference_otus.py -i seqs.fna -o pick_references_output_open -r /home/genome/joseph7e/MEG_its_test/its_database/rep_set/97_otus.fasta -p parameters
 
