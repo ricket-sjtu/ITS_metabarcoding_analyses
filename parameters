@@ -1,0 +1,16 @@
+#Parameters for 99pct open reference OTU picking with rdp taxonomy assignment
+
+
+# OTU picker parameters
+pick_otus:similarity    0.97
+pick_otus:enable_rev_strand_match       True
+
+# Taxonomy assignment parameters
+assign_taxonomy:reference_seqs_fp       /home/genome/joseph7e/MEG_its_test/its_database/rep_set/97_otus.fasta
+assign_taxonomy:id_to_taxonomy_fp       /home/genome/joseph7e/MEG_its_test/its_database/taxonomy/97_otu_taxonomy.txt
+assign_taxonomy:similarity     0.9
+#join_paired_ends:min_overlap    10
+#join_paired_ends:perc_max_diff  15
+#multiple_join_paired_ends:read1_indicator       R1
+#mulitple_join_paired_ends:read3_indicator        R2
+pick_open_references:reference_fp     /home/genome/joseph7e/MEG_its_test/its_database/rep_set/97_otus.fasta
