@@ -104,7 +104,7 @@ qiime phylogeny midpoint-root   --i-tree tree_unrooted_from_qiime1.qza   --o-roo
 my_numbers : 6092, 2130, 10065
 
 
-sampling_depth=6092
+sampling_depth=10065
 
 qiime diversity core-metrics \
   --i-phylogeny rooted-tree.qza \
@@ -134,3 +134,34 @@ qiime diversity alpha-correlation \
   --i-alpha-diversity core-metric_$sampling_depth/evenness_vector.qza \
   --m-metadata-file Microbiome_ITS_Mapping_File.tsv \
   --o-visualization core-metric_$sampling_depth/evenness-correlation.qzv  
+  
+  
+### Beta diversity
+
+categories: #SampleID,BarcodeSequence,LinkerPrimerSequence,SampleType,Year,State,WNSStatus,Species,Sex,Description
+
+category=Year
+
+qiime diversity beta-group-significance \
+  --i-distance-matrix core-metric_$sampling_depth/unweighted_unifrac_distance_matrix.qza \
+  --m-metadata-file Microbiome_ITS_Mapping_File.tsv \
+  --m-metadata-category $category \
+  --o-visualization core-metric_$sampling_depth/unweighted-unifrac-$category-significance.qzv
+
+
+### Emperor PCOA plots (must be numerical)
+
+sampling_depth=6092
+category=WNSStatus
+
+qiime emperor plot \
+  --i-pcoa core-metric_$sampling_depth/unweighted_unifrac_pcoa_results.qza \
+  --m-metadata-file Microbiome_ITS_Mapping_File.tsv \
+  --p-custom-axis $category \
+  --o-visualization core-metric_$sampling_depth/unweighted-unifrac-emperor-$category.qzv
+
+qiime emperor plot \
+  --i-pcoa core-metric_$sampling_depth/bray_curtis_pcoa_results.qza \
+  --m-metadata-file Microbiome_ITS_Mapping_File.tsv \
+  --p-custom-axis $category \
+  --o-visualization core-metric_$sampling_depth/bray-curtis-emperor-$category.qzv
