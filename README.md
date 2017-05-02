@@ -151,17 +151,15 @@ qiime diversity beta-group-significance \
 
 ### Emperor PCOA plots (must be numerical)
 
-sampling_depth=6092
-category=WNSStatus
+sampling_depth=2130
+#category=WNSStatus
 
 qiime emperor plot \
   --i-pcoa core-metric_$sampling_depth/unweighted_unifrac_pcoa_results.qza \
-  --m-metadata-file Microbiome_ITS_Mapping_File.tsv \
-  --p-custom-axis $category \
-  --o-visualization core-metric_$sampling_depth/unweighted-unifrac-emperor-$category.qzv
+  --m-metadata-file ../../../../Microbiome_ITS_Mapping_File.txt \
+  --o-visualization core-metric_$sampling_depth/unweighted-unifrac-emperor.qzv
 
 qiime emperor plot \
   --i-pcoa core-metric_$sampling_depth/bray_curtis_pcoa_results.qza \
-  --m-metadata-file Microbiome_ITS_Mapping_File.tsv \
-  --p-custom-axis $category \
-  --o-visualization core-metric_$sampling_depth/bray-curtis-emperor-$category.qzv
+  --m-metadata-file ../../../../Microbiome_ITS_Mapping_File.txt \
+  --o-visualization core-metric_$sampling_depth/bray-curtis-emperor.qzv
