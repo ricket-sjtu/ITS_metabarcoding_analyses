@@ -1,0 +1,11 @@
+../raw_ITS_reads_for_dada2_analysis/MB100_ATGAGGAATAGC_L001
+../raw_ITS_reads_for_dada2_analysis/MB101_TCTTTCAGAGAC_L001
+../raw_ITS_reads_for_dada2_analysis/MB102_AACAAGCAGAAC_L001
+../raw_ITS_reads_for_dada2_analysis/MB103_TGAGGTCTTGAC_L001
+../raw_ITS_reads_for_dada2_analysis/MB104_GGAACGTAACAA_L001
+../raw_ITS_reads_for_dada2_analysis/MB105_TATCTCGAACTG_L001
+../raw_ITS_reads_for_dada2_analysis/MB106_TCTGGTGACATT_L001
+../raw_ITS_reads_for_dada2_analysis/MB107_ATTTGCAGGCTG_L001
+../raw_ITS_reads_for_dada2_analysis/MB108_CGGTACTTGCAA_L001
+../raw_ITS_reads_for_dada2_analysis/MB109_AGTGAGAGAAGC_L001
+ETC ETC ETC ...
