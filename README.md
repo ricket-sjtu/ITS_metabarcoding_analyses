@@ -1,5 +1,29 @@
 # ITS_metabarcoding_analyses
-Meghan's ITS pipeline
+ITS2 pipeline
+Sequences were amplified following the EMP, http://www.earthmicrobiome.org/protocols-and-standards/its/
+Illumina Hiseq 2500, 250 bp paired-end reads.
+
+## Nextera Adapters
+### Adapters in Forward Reads
+>Trans2_rc_in_20_sequences
+CTGTCTCTTATACACATCTCCGAGCCCACGAGAC
+
+### Adpeters in Reverse Reads
+>Trans1_rc
+CTGTCTCTTATACACATCTGACGCTGCCGACGA
+
+
+## Primer Sequences
+### EMP.ITSkabir reverse primer (ITS2), barcoded
+Reverse complement of 3′ Illumina adapter -> CAAGCAGAAGACGGCATACGAGAT
+Golay barcode -> NNNNNNNNNN
+Reverse primer linker -> CG
+Reverse primer (ITS2; Note: This is identical to ITS2 from White et al., 1990.) -> GCTGCGTTCTTCATCGATGC
+
+
+## Step 1: Trim Sequences and Remove Primers:
+sbatch ./cutadapt_trim_adapters_and_primers.sh
+
 
 
 ## Database Download from http://qiime.org/home_static/dataFiles.html
