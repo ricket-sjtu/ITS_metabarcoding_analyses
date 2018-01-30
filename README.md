@@ -21,8 +21,17 @@ Reverse primer linker -> CG
 Reverse primer (ITS2; Note: This is identical to ITS2 from White et al., 1990.) -> GCTGCGTTCTTCATCGATGC
 
 
-## Step 1: Trim Sequences and Remove Primers:
+## Step 1: Trim Sequences and Remove Primers with cutadapt
 sbatch ./cutadapt_trim_adapters_and_primers.sh
+
+## Step 1 NEW! : Trim sequences and remove primers in qiime2 : Make sure there are no reverse primsers on your forward reads cutadapt plugin which provides trim-paired option
+
+
+
+
+## Step 2: DADA2 : after trimming primers, you may want to disable truncation filtering entirely by setting trunc_len to 0 
+
+
 
 
 
