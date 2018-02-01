@@ -20,29 +20,76 @@ Golay barcode -> NNNNNNNNNN
 Reverse primer linker -> CG
 Reverse primer (ITS2; Note: This is identical to ITS2 from White et al., 1990.) -> GCTGCGTTCTTCATCGATGC
 
+## Reference Database : UNITE
+#### https://unite.ut.ee/repository.php
+#### https://plutof.ut.ee/#/datacite/10.15156%2FBIO%2F587481
+
+wget "https://files.plutof.ut.ee/doi/0A/0B/0A0B25526F599E87A1E8D7C612D23AF7205F0239978CBD9C491767A0C1D237CC.zip"
+
+
+qiime tools import   --type 'FeatureData[Taxonomy]'   --source-format HeaderlessTSVTaxonomyFormat   --input-path sh_   --output-path qiime-ref-taxonomy_99.qz
+
+qiime tools import   --type 'FeatureData[Taxonomy]'   --source-format HeaderlessTSVTaxonomyFormat   --input-path sh_   --output-path q
+iime-ref-taxonomy_99.qz
+
 
 ## Step 1: Trim Sequences and Remove Primers with cutadapt
 sbatch ./cutadapt_trim_adapters_and_primers.sh
 
+qiime tools import  --type 'SampleData[PairedEndSequencesWithQuality]' --input-path cutadapt_data/  --source-format CasavaOneEightSingleLanePerSampleDirFmt  --output-path cutadapt-paired-end.qza
+
+
 ## Step 1 NEW! : Trim sequences and remove primers in qiime2 : Make sure there are no reverse primsers on your forward reads cutadapt plugin which provides trim-paired option
 
+qiime tools import  --type 'SampleData[PairedEndSequencesWithQuality]' --input-path raw_data/  --source-format CasavaOneEightSingleLanePerSampleDirFmt  --output-path raw-paired-end.qza
 
-
+qiime cutadapt trim-paired --i-demultiplexed-sequences raw-paired-end.qza --o-trimmed-sequences trimmed-paired-end.qza --p-cores 60 --p-anywhere-f CTGTCTCTTATACACATCTCCGAGCCCACGAGAC --p-anywhere-r CTGTCTCTTATACACATCTGACGCTGCCGACGA --p-front-f CAAGCAGAAGACGGCATACGAGAT
 
 ## Step 2: DADA2 : after trimming primers, you may want to disable truncation filtering entirely by setting trunc_len to 0 
 
+qiime dada2 denoise-paired --p-trim-left-f 0 --p-trim-left-r 0 --p-trunc-len-f 0 --p-trunc-len-r 0 --i-demultiplexed-seqs trimmed-paired-end.qza --o-table trimmed-0-0-table --o-representative-sequences trimmed-req-seqs --verbose --p-n-threads 60
+
+## I also ran the single ends for comparison
+qiime dada2 denoise-single --p-trim-left 0 --p-trunc-len 0 --i-demultiplexed-seqs cutadapt-single-end.qza --o-table cutadapt-single-end-0-0-tqble --o-representative-sequences cutadapt-single-end-rep-seqs --verbose --p-n-threads 60
+
+
+## Step3: Assign Taxonomy: here we do it with qiime BLAST
+
+qiime feature-classifier classify-consensus-blast --i-query trimmed-req-seqs.qz --i-reference-taxonomy reference_UNITE/qiime-ref-taxonomy_99.qza --i-reference-reads reference_UNITE/qiime_fasta_99.qza --o-classification unite_99_9_trimmed-paired-end-classification_blast.qza --p-perc-identity 0.9 --p-maxaccepts 1
+
+qiime feature-classifier classify-consensus-blast --i-query cutadapt-single-end-rep-seqs.qza --i-reference-taxonomy reference_UNITE/qiime-ref-taxonomy_99.qza --i-reference-reads reference_UNITE/qiime_fasta_99.qza --o-classification unite_99_9_cutadapt-single-end-classification_blast.qza --p-perc-identity 0.9 --p-maxaccepts 1
 
 
 
 
-## Database Download from http://qiime.org/home_static/dataFiles.html
 
-mkdir its_database && cd its_database
 
-wget 'https://github.com/downloads/qiime/its-reference-otus/its_12_11_otus.tar.gz'
-#
-##### Be sure to unzip the database, all of them
-#
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ### Make blast database for taxonomy assignment (go into database rep set) only if using joes taoxnomy assignment
 makeblastdb -dbtype nucl -in 99_otus.fasta -out 99_otus
 #
